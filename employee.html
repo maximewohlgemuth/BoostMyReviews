@@ -138,14 +138,6 @@
             }
         });
 
-        // Vérifier si l'administrateur est toujours connecté au chargement de la page employé
-        document.addEventListener('DOMContentLoaded', function () {
-            if (localStorage.getItem('adminLoggedIn') !== 'true') {
-                // Si l'administrateur n'est pas connecté, rediriger l'employé
-                window.location.href = 'index.html';
-            }
-        });
-
         // Rafraîchir le jeton si nécessaire
         function refreshAccessToken() {
             const refreshToken = localStorage.getItem('refresh_token');
