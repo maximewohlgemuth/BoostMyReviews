@@ -96,6 +96,15 @@
                 localStorage.setItem('userRole', 'admin'); // Assigner le rôle administrateur
             }
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const photoUrl = urlParams.get('photoUrl');
+
+            if (photoUrl) {
+                document.getElementById('profilePhoto').src = decodeURIComponent(photoUrl);
+            }
+        });
     </script>
 </body>
 
