@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const adminId = document.getElementById('adminId').value;
             const adminPassword = document.getElementById('adminPassword').value;
             if (adminId === 'admin1' && adminPassword === 'pass2') {
+                localStorage.setItem('adminLoggedIn', 'true');  // Stocker l'état de connexion de l'admin
                 window.location.href = 'admin.html';
             } else {
                 alert('Identifiant ou mot de passe incorrect');
@@ -16,7 +17,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const employeeId = document.getElementById('employeeId').value;
             const employeePassword = document.getElementById('employeePassword').value;
             if (employeeId === 'emp1' && employeePassword === 'pass1') {
-                window.location.href = 'employee.html';
+                if (localStorage.getItem('adminLoggedIn') === 'true') {
+                    window.location.href = 'employee.html';  // L'employé peut se connecter si l'admin est connecté
+                } else {
+                    alert("L'administrateur doit être connecté pour autoriser l'accès.");
+                }
             } else {
                 alert('Identifiant ou mot de passe incorrect');
             }
@@ -46,6 +51,13 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Erreur lors de la récupération du jeton d\'accès. Veuillez réessayer.');
         }
     };
+
+    // Ajouter un écouteur pour surveiller les changements dans localStorage
+    window.addEventListener('storage', function (event) {
+        if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
+            window.location.href = 'index.html'; // Rediriger l'employé si l'administrateur se déconnecte
+        }
+    });
 
     // Placeholder pour d'autres fonctions
 });

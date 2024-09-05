@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espace Administrateur - Boost My Reviews</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animation.css">
     <style>
@@ -83,7 +84,7 @@
         // Si l'admin est déconnecté dans un autre onglet, fermer la session employé
         window.addEventListener('storage', function (event) {
             if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
-                window.location.href = 'employee_logout.html'; // Rediriger vers déconnexion si admin se déconnecte
+                window.location.href = 'index.html'; // Rediriger si l'état change
             }
         });
 
