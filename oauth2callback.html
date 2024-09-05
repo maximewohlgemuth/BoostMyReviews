@@ -45,7 +45,12 @@
 
                             // Stocker l'état de connexion
                             localStorage.setItem('adminLoggedIn', 'true');
-                            window.location.href = 'admin.html'; // Redirection vers l'espace admin
+
+                            // Ajouter un rôle utilisateur pour gestion ultérieure
+                            localStorage.setItem('userRole', 'admin');
+
+                            // Redirection vers l'espace admin
+                            window.location.href = 'admin.html';
                         })
                         .catch(error => {
                             console.error('Erreur lors de la récupération des informations utilisateur :', error);

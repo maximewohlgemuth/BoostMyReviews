@@ -109,8 +109,9 @@
                 }
             } else if (username === employeeUsername && password === employeePassword) {
                 if (isAdminLoggedIn()) {
-                    // Si l'administrateur est déjà connecté, l'employé peut se connecter
-                    window.location.href = 'employee.html';
+                    // Stocker le rôle employé et rediriger l'utilisateur
+                    localStorage.setItem('userRole', 'employee');
+                    window.location.href = 'employee.html'; // Rediriger l'employé
                 } else {
                     errorMessage.style.display = 'block';
                     errorMessage.textContent = 'L\'administrateur doit être connecté pour autoriser l\'accès aux employés.';
