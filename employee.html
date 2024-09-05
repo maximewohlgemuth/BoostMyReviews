@@ -133,8 +133,8 @@
         // Déconnecter automatiquement si l'administrateur se déconnecte
         window.addEventListener('storage', function (event) {
             if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
-                // L'employé est déconnecté et redirigé vers la page de connexion
-                window.location.href = 'index.html';
+                // Si l'administrateur se déconnecte, déconnecter l'employé aussi
+                window.location.href = 'index.html'; // Rediriger l'employé vers la page de connexion
             }
         });
 
