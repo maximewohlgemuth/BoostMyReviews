@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Boost My Reviews</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animation.css">
+    <style>
+        /* Style général pour la sélection du rôle */
+        .role-selection-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .role-selection-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .role-selection-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0072ff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .role-selection-container button:hover {
+            background-color: #0056cc;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        /* Style pour le header avec logo centré */
+        .header {
+            width: 100%;
+            padding: 10px;
+            background-color: #0072ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 140px;
+            /* Taille du logo plus petite */
+            cursor: pointer;
+        }
+
+        .header a {
+            display: block;
+        }
+
+        /* Style pour le footer */
+        footer {
+            width: 100%;
+            padding: 20px;
+            background-color: #0072ff;
+            color: white;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="https://www.boostmyreviews.fr" target="_blank">
+            <img src="images/logo.png" alt="Logo Boost My Reviews" class="logo">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="role-selection-container">
+            <h2>Qui êtes-vous ?</h2>
+            <button id="adminLogin">Administrateur</button>
+            <button id="employeeLogin">Employé</button>
+            <p id="errorMessage" class="error-message" style="display: none;"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Boost my Reviews, Votre succès, amplifié par des avis</p>
+    </footer>
+
+    <script>
+        // Vérifier si l'administrateur est déjà connecté
+        function isAdminLoggedIn() {
+            return localStorage.getItem('adminLoggedIn') === 'true';
+        }
+
+        // Quand l'administrateur clique sur "Administrateur"
+        document.getElementById('adminLogin').addEventListener('click', function () {
+            const clientId = '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com';
+            const redirectUri = 'https://maximewohlgemuth.github.io/BoostMyReviews/oauth2callback';
+            const scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+
+            // Redirection vers Google pour la connexion OAuth
+            window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scope)}&prompt=consent`;
+        });
+
+        // Quand l'employé clique sur "Employé"
+        document.getElementById('employeeLogin').addEventListener('click', function () {
+            if (isAdminLoggedIn()) {
+                // Si l'administrateur est connecté, rediriger l'employé vers la page de sélection de rôle
+                window.location.href = 'role_selection.html'; // L'employé peut maintenant se connecter
+            } else {
+                // Sinon, afficher un message d'erreur
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'L\'administrateur doit être connecté pour autoriser l\'accès aux employés.';
+            }
+        });
+
+        // Écouter les changements dans localStorage pour mettre à jour l'état en temps réel
+        window.addEventListener('storage', function (event) {
+            if (event.key === 'adminLoggedIn') {
+                console.log('État de connexion de l\'administrateur changé :', event.newValue);
+            }
+        });
+    </script>
+</body>
+
+</html>

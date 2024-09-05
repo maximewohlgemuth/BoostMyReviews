@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sélection du Rôle - Boost My Reviews</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animation.css">
+    <style>
+        /* Style général pour le formulaire */
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0072ff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #0056cc;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-container">
+            <h2>Sélection du Rôle</h2>
+            <p>Veuillez entrer vos informations :</p>
+            <form id="roleForm">
+                <input type="text" id="username" name="username" placeholder="Identifiant" required>
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <button type="submit">Connexion</button>
+            </form>
+            <p id="errorMessage" class="error-message" style="display: none;"></p> <!-- Message d'erreur -->
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour vérifier si l'administrateur est connecté via Google
+        function isAdminLoggedIn() {
+            return localStorage.getItem('adminLoggedIn') === 'true'; // Vérification de la connexion Google
+        }
+
+        document.getElementById('roleForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simulation des identifiants pour l'administrateur et les employés
+            const adminUsername = "admin";
+            const adminPassword = "adminPass1";
+            const employeeUsername = "employee";
+            const employeePassword = "employeePass1";
+
+            // Message d'erreur
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Vérification des rôles
+            if (username === adminUsername && password === adminPassword) {
+                if (isAdminLoggedIn()) {
+                    // Si l'administrateur est connecté via Google, redirection vers l'espace admin
+                    window.location.href = 'admin.html';
+                } else {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Vous devez d\'abord vous connecter via Google.';
+                }
+            } else if (username === employeeUsername && password === employeePassword) {
+                if (isAdminLoggedIn()) {
+                    // Si l'administrateur est déjà connecté, l'employé peut se connecter
+                    window.location.href = 'employee.html';
+                } else {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'L\'administrateur doit être connecté pour autoriser l\'accès aux employés.';
+                }
+            } else {
+                // Affichage d'un message d'erreur pour des identifiants invalides
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'Identifiant ou mot de passe incorrect.';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Administrateur - Boost My Reviews</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animation.css">
+    <style>
+        #accessEmployeeSpace {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0072ff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #accessEmployeeSpace:hover {
+            background-color: #0056cc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header-animation">
+            <h1>Espace Administrateur</h1>
+            <nav class="fade-in">
+                <ul class="nav-list">
+                    <li class="active"><a href="admin.html">Vue d'ensemble</a></li>
+                    <li><a href="employees.html">Gestion des Employés</a></li>
+                    <li><a href="reports.html">Rapports</a></li>
+                    <li><a href="settings.html">Paramètres</a></li>
+                    <li><a href="statistics.html">Statistiques</a></li>
+                    <li class="logout dropdown" style="margin-left:auto;">
+                        <a href="#">Déconnexion</a>
+                        <div class="dropdown-content">
+                            <a href="#" id="logoutAdmin">Me déconnecter de l'espace administrateur</a>
+                            <a href="#" id="logoutGoogle">Me déconnecter de Google</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="content fade-in">
+            <section id="adminDashboard">
+                <h2>Bienvenue dans l'espace administrateur</h2>
+                <p>Utilisez le menu ci-dessus pour gérer les employés, consulter les rapports et ajuster les paramètres.
+                </p>
+                <button id="accessEmployeeSpace">Accéder à l'espace employé</button>
+            </section>
+        </main>
+
+        <footer class="footer-animation">
+            <p>&copy; 2024 Boost My Reviews, Votre succès, amplifié par des avis</p>
+        </footer>
+    </div>
+
+    <script>
+        // Ouvrir l'espace employé dans un nouvel onglet
+        document.getElementById('accessEmployeeSpace').addEventListener('click', function () {
+            window.open('index.html', '_blank'); // Ouvre dans un nouvel onglet
+        });
+
+        // Déconnexion de l'espace administrateur
+        document.getElementById('logoutAdmin').addEventListener('click', function () {
+            localStorage.removeItem('adminLoggedIn');
+            window.location.href = 'index.html'; // Redirection après déconnexion
+        });
+
+        // Déconnexion de Google (ferme également l'accès employé)
+        document.getElementById('logoutGoogle').addEventListener('click', function () {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.setItem('adminLoggedOut', 'true'); // Marquer la déconnexion pour fermer les sessions employé
+            window.location.href = 'index.html'; // Redirection après déconnexion
+        });
+
+        // Si l'admin est déconnecté dans un autre onglet, fermer la session employé
+        window.addEventListener('storage', function (event) {
+            if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
+                window.location.href = 'employee_logout.html'; // Rediriger vers déconnexion si admin se déconnecte
+            }
+        });
+
+        // Vérifier si l'administrateur est connecté
+        document.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'index.html'; // Si pas connecté, retour à la page d'accueil
+            }
+        });
+    </script>
+</body>
+
+</html>

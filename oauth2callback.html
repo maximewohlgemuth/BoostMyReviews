@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth2 Callback</title>
+</head>
+
+<body>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const authorizationCode = urlParams.get('code');
+
+        if (authorizationCode) {
+            fetch(`https://oauth2.googleapis.com/token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    code: authorizationCode,
+                    client_id: '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com',
+                    client_secret: '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',
+                    redirect_uri: 'https://maximewohlgemuth.github.io/BoostMyReviews/oauth2callback',
+                    grant_type: 'authorization_code',
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Stocker les jetons
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('refresh_token', data.refresh_token);
+
+                    // Récupérer les informations utilisateur
+                    fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                        headers: {
+                            'Authorization': `Bearer ${data.access_token}`
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(userInfo => {
+                            // Stocker les informations utilisateur dans localStorage
+                            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+                            // Stocker l'état de connexion
+                            localStorage.setItem('adminLoggedIn', 'true');
+                            window.location.href = 'admin.html'; // Redirection vers l'espace admin
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de la récupération des informations utilisateur :', error);
+                        });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des jetons :', error);
+                });
+        } else {
+            console.error("Erreur : Aucun code d'autorisation reçu.");
+        }
+    </script>
+</body>
+
+</html>

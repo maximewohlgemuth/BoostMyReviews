@@ -1,0 +1,30 @@
+<nav class="fade-in">
+    <ul class="nav-list">
+        <li><a href="admin.html">Vue d'ensemble</a></li>
+        <li><a href="employees.html">Gestion des Employés</a></li>
+        <li><a href="reports.html">Rapports</a></li>
+        <li><a href="settings.html">Paramètres</a></li>
+        <li><a href="statistics.html">Statistiques</a></li>
+        <!-- Menu déroulant pour la déconnexion -->
+        <li class="logout dropdown" style="margin-left:auto;">
+            <a href="#">Déconnexion</a>
+            <div class="dropdown-content">
+                <a href="#" id="logoutAdmin">Me déconnecter de l'espace administrateur</a>
+                <a href="#" id="logoutGoogle">Me déconnecter de Google</a>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+<script>
+    // Redirection lors de la déconnexion de l'espace administrateur
+    document.getElementById('logoutAdmin').addEventListener('click', function () {
+        window.location.href = 'role_selection.html'; // Redirige vers la page de sélection du rôle
+    });
+
+    // Redirection lors de la déconnexion de Google
+    document.getElementById('logoutGoogle').addEventListener('click', function () {
+        localStorage.removeItem('adminLoggedIn');
+        window.location.href = 'index.html'; // Redirige vers la page d'accueil après déconnexion de Google
+    });
+</script>

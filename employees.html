@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Employés - Boost My Reviews</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animation.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header-animation">
+            <h1>Gestion des Employés</h1>
+            <nav class="fade-in">
+                <ul class="nav-list">
+                    <li><a href="admin.html">Vue d'ensemble</a></li> <!-- Remplacé par admin.html -->
+                    <li class="active"><a href="employees.html">Gestion des Employés</a></li>
+                    <li><a href="reports.html">Rapports</a></li>
+                    <li><a href="settings.html">Paramètres</a></li>
+                    <li><a href="statistics.html">Statistiques</a></li>
+                    <!-- Menu déroulant pour la déconnexion -->
+                    <li class="logout dropdown" style="margin-left:auto;">
+                        <a href="#">Déconnexion</a>
+                        <div class="dropdown-content">
+                            <a href="#" id="logoutAdmin">Me déconnecter de l'espace administrateur</a>
+                            <a href="#" id="logoutGoogle">Me déconnecter de Google</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="content fade-in">
+            <!-- Contenu spécifique à la gestion des employés -->
+        </main>
+
+        <footer class="footer-animation">
+            <p>&copy; 2024 Boost My Reviews, Votre succès, amplifié par des avis</p>
+        </footer>
+    </div>
+
+    <script>
+        // Script de gestion de la déconnexion et vérification de l'état de connexion admin
+        document.getElementById('logoutAdmin').addEventListener('click', function () {
+            localStorage.removeItem('adminLoggedIn');
+            const clientId = '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com';
+            const redirectUri = 'https://maximewohlgemuth.github.io/BoostMyReviews/oauth2callback';
+            const scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+            window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scope)}&prompt=consent`;
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+
+</html>

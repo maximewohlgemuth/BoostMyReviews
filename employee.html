@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Employé - Boost My Reviews</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animation.css">
+    <style>
+        /* Style pour les boutons et le tableau de bord */
+        #dashboard,
+        #rewards {
+            margin: 20px;
+            padding: 10px;
+            background-color: #0072ff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        #dashboard:hover,
+        #rewards:hover {
+            background-color: #0056cc;
+        }
+
+        .stats-container {
+            margin-top: 30px;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .placeholder {
+            font-size: 18px;
+            color: gray;
+            text-align: center;
+        }
+
+        /* Uniformisation du style du header pour toutes les pages */
+        .header-animation {
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header-animation h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        nav ul {
+            padding: 0;
+            margin: 10px 0;
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: #0072ff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #0072ff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header-animation">
+            <h1>Espace Employé</h1>
+            <nav class="fade-in">
+                <ul class="nav-list">
+                    <li><a href="employee.html" id="dashboard">Tableau de Bord</a></li>
+                    <li><a href="rewards.html" id="rewards">Récompenses</a></li>
+                    <li class="logout" style="margin-left:auto;"><a href="index.html">Déconnexion</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="content fade-in">
+            <section id="employeeDashboard">
+                <h2>Tableau de Bord</h2>
+                <div class="stats-container">
+                    <h3>Évolution des Commentaires</h3>
+                    <div class="chart-container">
+                        <p class="placeholder">Les données d'évolution des commentaires seront affichées ici.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer-animation">
+            <p>&copy; 2024 Boost My Reviews, Votre succès, amplifié par des avis</p>
+        </footer>
+    </div>
+
+    <script>
+        // Vérifier si l'administrateur est connecté via Google
+        function isAdminLoggedIn() {
+            return localStorage.getItem('adminLoggedIn') === 'true' && localStorage.getItem('access_token') !== null;
+        }
+
+        // Empêcher l'accès à la page employé si l'administrateur n'est pas connecté
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!isAdminLoggedIn()) {
+                alert("L'administrateur doit être connecté via Google pour accéder à cet espace.");
+                window.location.href = 'index.html'; // Rediriger vers la page de connexion
+            }
+        });
+
+        // Déconnecter automatiquement si l'administrateur se déconnecte
+        window.addEventListener('storage', function (event) {
+            if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
+                window.location.href = 'index.html'; // Rediriger si l'administrateur se déconnecte
+            }
+        });
+        // Vérifier si l'administrateur est toujours connecté
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'employee_logout.html'; // Redirection si l'administrateur se déconnecte
+        }
+
+        // Synchronisation des onglets pour déconnexion
+        window.addEventListener('storage', function (event) {
+            if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
+                window.location.href = 'index.html'; // Redirection si admin se déconnecte
+            }
+        });
+
+        // Rafraîchir le jeton si nécessaire
+        function refreshAccessToken() {
+            const refreshToken = localStorage.getItem('refresh_token');
+            if (refreshToken) {
+                fetch('https://oauth2.googleapis.com/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        refresh_token: refreshToken,
+                        client_id: '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com',
+                        client_secret: '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T',
+                        grant_type: 'refresh_token',
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.access_token) {
+                            localStorage.setItem('access_token', data.access_token);
+                        } else {
+                            console.error('Erreur lors du rafraîchissement du jeton', data);
+                            window.location.href = 'index.html'; // Rediriger vers la connexion si le rafraîchissement échoue
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors du rafraîchissement du jeton :', error);
+                        window.location.href = 'index.html'; // Redirection si l'erreur persiste
+                    });
+            }
+        }
+
+        // Appeler la fonction au chargement de la page
+        refreshAccessToken();
+    </script>
+</body>
+
+</html>

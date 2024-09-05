@@ -1,0 +1,116 @@
+/* Animation de fondu en entrée */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animation de glissement vers le bas pour le header */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.header-animation {
+    animation: slideDown 0.7s ease-in-out;
+}
+
+/* Animation de glissement vers le haut pour le footer */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.footer-animation {
+    animation: slideUp 0.7s ease-in-out;
+}
+
+/* Animation des liens de navigation au survol */
+.nav-list li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-list li a:hover {
+    background-color: #ffffff;
+    color: #0072ff;
+    border-radius: 5px;
+}
+
+/* Animation de glissement vers la gauche pour la liste des employés */
+@keyframes slideLeft {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.employee-list-animation {
+    animation: slideLeft 0.8s ease-in-out;
+}
+
+/* Animation de glissement vers la droite pour les boutons d'actions */
+@keyframes slideRight {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.action-buttons-animation {
+    animation: slideRight 0.8s ease-in-out;
+}
+
+/* Animation de fondu en entrée pour les détails de chaque employé */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.employee-details-animation {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animation des boutons de gestion */
+.manage-buttons {
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.manage-buttons:hover {
+    background-color: #0072ff;
+    transform: scale(1.05);
+    color: white;
+}
