@@ -91,6 +91,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             if (localStorage.getItem('adminLoggedIn') !== 'true') {
                 window.location.href = 'index.html'; // Si pas connecté, retour à la page d'accueil
+            } else {
+                localStorage.setItem('userRole', 'admin'); // Assigner le rôle administrateur
             }
         });
     </script>

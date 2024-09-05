@@ -133,18 +133,8 @@
         // Déconnecter automatiquement si l'administrateur se déconnecte
         window.addEventListener('storage', function (event) {
             if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
-                window.location.href = 'index.html'; // Rediriger si l'administrateur se déconnecte
-            }
-        });
-        // Vérifier si l'administrateur est toujours connecté
-        if (localStorage.getItem('adminLoggedIn') !== 'true') {
-            window.location.href = 'employee_logout.html'; // Redirection si l'administrateur se déconnecte
-        }
-
-        // Synchronisation des onglets pour déconnexion
-        window.addEventListener('storage', function (event) {
-            if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
-                window.location.href = 'index.html'; // Redirection si admin se déconnecte
+                // L'employé est déconnecté et redirigé vers la page de connexion
+                window.location.href = 'index.html';
             }
         });
 
