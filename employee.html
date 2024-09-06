@@ -124,19 +124,21 @@
 
         // Empêcher l'accès à la page employé si l'administrateur n'est pas connecté
         document.addEventListener('DOMContentLoaded', function () {
-            if (localStorage.getItem('adminLoggedIn') !== 'true') {
-                window.location.href = 'index.html'; // Redirection si l'administrateur n'est pas connecté
+            if (!isAdminLoggedIn()) {
+                // Si l'administrateur n'est pas connecté, rediriger l'employé vers la page d'accueil
+                window.location.href = 'index.html';
             }
         });
 
         // Déconnecter automatiquement si l'administrateur se déconnecte
         window.addEventListener('storage', function (event) {
             if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
-                window.location.href = 'index.html'; // Rediriger l'employé si l'administrateur se déconnecte
+                // Si l'administrateur se déconnecte, rediriger l'employé
+                window.location.href = 'index.html';
             }
         });
 
-        // Rafraîchir le jeton si nécessaire
+        // Rafraîchir le jeton d'accès si nécessaire pour maintenir la session active
         function refreshAccessToken() {
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken) {
@@ -163,7 +165,7 @@
             }
         }
 
-        // Appeler la fonction au chargement de la page
+        // Appeler la fonction au chargement de la page pour rafraîchir le jeton
         refreshAccessToken();
     </script>
 </body>
