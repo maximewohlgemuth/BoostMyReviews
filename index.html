@@ -68,6 +68,7 @@
 
         .logo {
             width: 140px;
+            /* Taille du logo plus petite */
             cursor: pointer;
         }
 
@@ -116,16 +117,26 @@
         }
 
         // Quand l'administrateur clique sur "Administrateur"
-
-
-        // Quand l'employé clique sur "Employé"
         document.getElementById('adminLogin').addEventListener('click', function () {
-            const clientId = '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com';
+            const clientId = '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com';  // Remplace par ton ID client
             const redirectUri = 'https://maximewohlgemuth.github.io/BoostMyReviews/oauth2callback';
             const scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
             const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline`;
 
             window.location.href = authUrl;
+        });
+
+        // Quand l'employé clique sur "Employé"
+        document.getElementById('employeeLogin').addEventListener('click', function () {
+            if (isAdminLoggedIn()) {
+                // Si l'administrateur est connecté, rediriger l'employé vers la page de connexion employé
+                window.location.href = 'employee.html';  // Redirection vers l'espace employé
+            } else {
+                // Sinon, afficher un message d'erreur
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = 'L\'administrateur doit être connecté pour autoriser l\'accès aux employés.';
+            }
         });
 
         // Écouter les changements dans localStorage pour mettre à jour l'état en temps réel

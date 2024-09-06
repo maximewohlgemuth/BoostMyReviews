@@ -123,6 +123,14 @@
                 errorMessage.textContent = 'Identifiant ou mot de passe incorrect.';
             }
         });
+
+        // Vérifier si l'administrateur est connecté au chargement de la page
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!isAdminLoggedIn()) {
+                // Redirection vers la page de connexion Google si l'admin n'est pas connecté
+                window.location.href = 'index.html';
+            }
+        });
     </script>
 </body>
 
