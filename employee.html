@@ -125,14 +125,14 @@
         // Empêcher l'accès à la page employé si l'administrateur n'est pas connecté
         document.addEventListener('DOMContentLoaded', function () {
             if (localStorage.getItem('adminLoggedIn') !== 'true') {
-                window.location.href = 'employee_logout.html'; // Redirection si l'administrateur n'est pas connecté
+                window.location.href = 'index.html'; // Redirection si l'administrateur n'est pas connecté
             }
         });
 
         // Déconnecter automatiquement si l'administrateur se déconnecte
         window.addEventListener('storage', function (event) {
             if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
-                window.location.href = 'index.html'; // Rediriger l'employé si l'administrateur se déconnecte
+                window.location.href = 'employee_logout.html'; // Rediriger l'employé si l'administrateur se déconnecte
             }
         });
 
