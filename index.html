@@ -121,17 +121,16 @@
             const clientId = '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com';  // Remplace par ton ID client
             const redirectUri = 'https://maximewohlgemuth.github.io/BoostMyReviews/oauth2callback';
             const scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
-            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline&prompt=consent`;
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline`;
 
-            // Redirection de l'utilisateur pour la connexion Google
             window.location.href = authUrl;
         });
 
         // Quand l'employé clique sur "Employé"
         document.getElementById('employeeLogin').addEventListener('click', function () {
             if (isAdminLoggedIn()) {
-                // Si l'administrateur est connecté, rediriger l'employé vers la page de connexion employé
-                window.location.href = 'employee.html';  // Redirection vers l'espace employé
+                // Si l'administrateur est connecté, rediriger l'employé vers la page role_selection.html pour la connexion
+                window.location.href = 'role_selection.html';  // Redirection vers l'espace employé sécurisé
             } else {
                 // Sinon, afficher un message d'erreur
                 const errorMessage = document.getElementById('errorMessage');
