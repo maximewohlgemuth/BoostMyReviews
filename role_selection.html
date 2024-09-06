@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animation.css">
     <style>
+        /* Style général pour le formulaire */
         .login-container {
             width: 100%;
             max-width: 400px;
@@ -74,14 +75,14 @@
                 <input type="password" id="password" name="password" placeholder="Mot de passe" required>
                 <button type="submit">Connexion</button>
             </form>
-            <p id="errorMessage" class="error-message" style="display: none;"></p>
+            <p id="errorMessage" class="error-message" style="display: none;"></p> <!-- Message d'erreur -->
         </div>
     </div>
 
     <script>
         // Fonction pour vérifier si l'administrateur est connecté via Google
         function isAdminLoggedIn() {
-            return localStorage.getItem('adminLoggedIn') === 'true';
+            return localStorage.getItem('adminLoggedIn') === 'true'; // Vérification de la connexion Google
         }
 
         document.getElementById('roleForm').addEventListener('submit', function (event) {
@@ -95,10 +96,13 @@
             const employeeUsername = "employee";
             const employeePassword = "employeePass1";
 
+            // Message d'erreur
             const errorMessage = document.getElementById('errorMessage');
 
+            // Vérification des rôles
             if (username === adminUsername && password === adminPassword) {
                 if (isAdminLoggedIn()) {
+                    // Si l'administrateur est connecté via Google, redirection vers l'espace admin
                     window.location.href = 'admin.html';
                 } else {
                     errorMessage.style.display = 'block';
@@ -106,21 +110,17 @@
                 }
             } else if (username === employeeUsername && password === employeePassword) {
                 if (isAdminLoggedIn()) {
+                    // Stocker le rôle employé et rediriger l'utilisateur
                     localStorage.setItem('userRole', 'employee');
-                    window.location.href = 'employee.html';
+                    window.location.href = 'employee.html'; // Rediriger l'employé
                 } else {
                     errorMessage.style.display = 'block';
                     errorMessage.textContent = 'L\'administrateur doit être connecté pour autoriser l\'accès aux employés.';
                 }
             } else {
+                // Affichage d'un message d'erreur pour des identifiants invalides
                 errorMessage.style.display = 'block';
                 errorMessage.textContent = 'Identifiant ou mot de passe incorrect.';
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            if (!isAdminLoggedIn()) {
-                window.location.href = 'index.html';
             }
         });
     </script>

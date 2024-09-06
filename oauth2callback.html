@@ -11,7 +11,7 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const authorizationCode = urlParams.get('code');
-        console.log('Code d\'autorisation reçu :', authorizationCode);  // Vérifier si le code d'autorisation est reçu
+        console.log('Code d\'autorisation reçu :', authorizationCode);
 
         if (authorizationCode) {
             fetch(`https://oauth2.googleapis.com/token`, {
@@ -29,30 +29,24 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Jeton d\'accès :', data.access_token);  // Afficher le jeton d'accès dans la console
-
-                    // Stocker le jeton d'accès dans le localStorage
+                    console.log('Jeton d\'accès :', data.access_token);
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
 
-                    // Récupérer les informations utilisateur avec le jeton d'accès
+                    // Récupérer les informations utilisateur
                     fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                            'Authorization': `Bearer ${data.access_token}`
                         }
                     })
                         .then(response => response.json())
                         .then(userInfo => {
-                            console.log('Informations utilisateur:', userInfo);  // Afficher les infos utilisateur dans la console
-
-                            // Stocker les infos utilisateur dans localStorage
                             localStorage.setItem('userInfo', JSON.stringify(userInfo));
-
-                            // Stocker l'état de connexion
                             localStorage.setItem('adminLoggedIn', 'true');
+                            localStorage.setItem('userRole', 'admin');
 
-                            // Rediriger vers la page admin
-                            window.location.href = 'admin.html';
+                            // Redirection vers la page role_selection.html
+                            window.location.href = 'role_selection.html';
                         })
                         .catch(error => {
                             console.error('Erreur lors de la récupération des informations utilisateur :', error);
