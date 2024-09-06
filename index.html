@@ -121,7 +121,9 @@
             const clientId = '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com';  // Remplace par ton ID client
             const redirectUri = 'https://maximewohlgemuth.github.io/BoostMyReviews/oauth2callback';
             const scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
-            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline`;
+
+            // Ajout de access_type=offline pour récupérer un jeton de rafraîchissement
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${encodeURIComponent(scope)}&access_type=offline&prompt=consent`;
 
             window.location.href = authUrl;
         });
