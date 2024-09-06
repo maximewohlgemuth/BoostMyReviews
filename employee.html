@@ -125,7 +125,7 @@
         // Empêcher l'accès à la page employé si l'administrateur n'est pas connecté
         document.addEventListener('DOMContentLoaded', function () {
             if (localStorage.getItem('adminLoggedIn') !== 'true') {
-                window.location.href = 'index.html'; // Redirection si l'administrateur n'est pas connecté
+                window.location.href = 'employee_logout.html'; // Redirection si l'administrateur n'est pas connecté
             }
         });
 
