@@ -141,34 +141,37 @@
             const refreshToken = localStorage.getItem('refresh_token');
             console.log('Tentative de rafraîchir le jeton d\'accès avec le jeton de rafraîchissement:', refreshToken);
 
-            if (refreshToken) {
-                fetch('https://oauth2.googleapis.com/token', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        refresh_token: refreshToken,
-                        client_id: '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com',  // Assurez-vous que cette valeur est correcte
-                        client_secret: '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',  // Assurez-vous que cette valeur est correcte
-                        grant_type: 'refresh_token',
-                    }),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.access_token) {
-                            console.log('Nouveau jeton d\'accès reçu:', data.access_token);
-                            localStorage.setItem('access_token', data.access_token);
-                        } else {
-                            console.error('Erreur lors du rafraîchissement du jeton d\'accès', data);
-                            window.location.href = 'index.html'; // Rediriger vers la connexion si le rafraîchissement échoue
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de la tentative de rafraîchissement du jeton d\'accès:', error);
-                        window.location.href = 'index.html';
-                    });
+            if (!refreshToken) {
+                console.error('Aucun jeton de rafraîchissement disponible.');
+                return;
             }
+
+            fetch('https://oauth2.googleapis.com/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    refresh_token: refreshToken,
+                    client_id: '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com',  // Remplacez par le bon client_id
+                    client_secret: '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',  // Remplacez par le bon client_secret
+                    grant_type: 'refresh_token',
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.access_token) {
+                        console.log('Nouveau jeton d\'accès reçu:', data.access_token);
+                        localStorage.setItem('access_token', data.access_token);
+                    } else {
+                        console.error('Erreur lors du rafraîchissement du jeton d\'accès', data);
+                        window.location.href = 'index.html'; // Rediriger si le rafraîchissement échoue
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la tentative de rafraîchissement du jeton d\'accès:', error);
+                    window.location.href = 'index.html';
+                });
         }
 
         // Appeler la fonction de rafraîchissement au chargement de la page

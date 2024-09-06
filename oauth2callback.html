@@ -31,7 +31,14 @@
                 .then(data => {
                     console.log('Jeton d\'accès :', data.access_token);
                     localStorage.setItem('access_token', data.access_token);
-                    localStorage.setItem('refresh_token', data.refresh_token);
+
+                    // Enregistrer le jeton de rafraîchissement après la première authentification
+                    if (data.refresh_token) {
+                        localStorage.setItem('refresh_token', data.refresh_token);
+                        console.log('Jeton de rafraîchissement enregistré :', data.refresh_token);
+                    } else {
+                        console.error('Aucun jeton de rafraîchissement reçu.');
+                    }
 
                     // Récupérer les informations utilisateur
                     fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
