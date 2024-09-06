@@ -3,3 +3,4 @@ console.log('Client Secret:', process.env.CLIENT_SECRET);
 console.log('Photo URL:', photoUrl);
 console.log(tokenResponse.data)
 console.log(peopleResponse.data)
+console.log('Réponse complète :', response);

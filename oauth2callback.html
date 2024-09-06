@@ -11,6 +11,7 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const authorizationCode = urlParams.get('code');
+        console.log('Code d\'autorisation reçu :', authorizationCode);  // Ajout pour vérifier si le code est bien reçu
 
         if (authorizationCode) {
             fetch(`https://oauth2.googleapis.com/token`, {
@@ -28,7 +29,7 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    // Stocker les jetons
+                    console.log('Jeton d\'accès :', data.access_token);  // Afficher les données reçues dans la console
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
 
