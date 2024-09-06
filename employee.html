@@ -119,28 +119,36 @@
     <script>
         // Vérifier si l'administrateur est connecté via Google
         function isAdminLoggedIn() {
-            return localStorage.getItem('adminLoggedIn') === 'true' && localStorage.getItem('access_token') !== null;
+            const adminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            const accessToken = localStorage.getItem('access_token');
+            console.log('Vérification de la connexion administrateur :', adminLoggedIn);
+            console.log('Jeton d\'accès disponible :', accessToken);
+            return adminLoggedIn && accessToken !== null;
         }
 
         // Empêcher l'accès à la page employé si l'administrateur n'est pas connecté
         document.addEventListener('DOMContentLoaded', function () {
             if (!isAdminLoggedIn()) {
-                // Si l'administrateur n'est pas connecté, rediriger l'employé vers la page d'accueil
-                window.location.href = 'index.html';
+                console.log('Redirection vers index.html : Administrateur non connecté');
+                window.location.href = 'index.html'; // Redirection si l'administrateur n'est pas connecté
+            } else {
+                console.log('Administrateur connecté. Accès à la page employé autorisé.');
             }
         });
 
         // Déconnecter automatiquement si l'administrateur se déconnecte
         window.addEventListener('storage', function (event) {
             if (event.key === 'adminLoggedOut' && event.newValue === 'true') {
-                // Si l'administrateur se déconnecte, rediriger l'employé
-                window.location.href = 'index.html';
+                console.log('Administrateur déconnecté dans un autre onglet. Redirection.');
+                window.location.href = 'index.html'; // Rediriger l'employé si l'administrateur se déconnecte
             }
         });
 
         // Rafraîchir le jeton d'accès si nécessaire pour maintenir la session active
         function refreshAccessToken() {
             const refreshToken = localStorage.getItem('refresh_token');
+            console.log('Tentative de rafraîchir le jeton d\'accès avec le jeton de rafraîchissement:', refreshToken);
+
             if (refreshToken) {
                 fetch('https://oauth2.googleapis.com/token', {
                     method: 'POST',
@@ -149,18 +157,24 @@
                     },
                     body: new URLSearchParams({
                         refresh_token: refreshToken,
-                        client_id: '715993578538-v98sc1ciih199mrtu6udm1lqehu579cr.apps.googleusercontent.com',
-                        client_secret: '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',
+                        client_id: 'YOUR_CLIENT_ID',
+                        client_secret: 'YOUR_CLIENT_SECRET',
                         grant_type: 'refresh_token',
                     }),
                 })
                     .then(response => response.json())
                     .then(data => {
                         if (data.access_token) {
+                            console.log('Nouveau jeton d\'accès reçu:', data.access_token);
                             localStorage.setItem('access_token', data.access_token);
                         } else {
+                            console.error('Erreur lors du rafraîchissement du jeton d\'accès', data);
                             window.location.href = 'index.html'; // Rediriger vers la connexion si le rafraîchissement échoue
                         }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la tentative de rafraîchissement du jeton d\'accès:', error);
+                        window.location.href = 'index.html';
                     });
             }
         }
